@@ -5,14 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#071321">
-<meta name="description" content="Video viral dan trending terbaru">
-<title>Viral Zone - Trending Video</title>
+<meta name="description" content="Video populer dan trending">
+<title>Viral Zone - Trending</title>
 
 <style>
 :root{
   --bg:#071321;
   --card:#10243b;
   --blue:#087cff;
+  --blue2:#20b5ff;
   --red:#ff3048;
   --text:#fff;
   --muted:#9cb4ce;
@@ -22,9 +23,9 @@
 
 body{
   margin:0;
+  font-family:Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-family:Arial,sans-serif;
 }
 
 header{
@@ -73,7 +74,9 @@ header{
   cursor:pointer;
 }
 
-.categories button.active{background:var(--blue)}
+.categories button.active{
+  background:var(--blue);
+}
 
 .container{
   max-width:1000px;
@@ -114,7 +117,7 @@ header{
   display:block;
 }
 
-/* PLAY MERAH - DIRECT LINK */
+/* Tombol play untuk memutar video */
 .play{
   position:absolute;
   top:50%;
@@ -151,10 +154,11 @@ header{
   font-size:12px;
 }
 
+/* LINK SPONSOR */
 .sponsor{
   display:block;
   margin-top:10px;
-  padding:11px;
+  padding:12px;
   border-radius:10px;
   text-align:center;
   background:linear-gradient(135deg,#087cff,#16aaff);
@@ -164,17 +168,22 @@ header{
   font-size:13px;
 }
 
-/* TOMBOL TONTON VIDEO */
+/* Tombol menonton video */
 .watch{
+  display:block;
   width:100%;
-  margin-top:9px;
-  padding:11px;
+  margin-top:10px;
+  padding:13px;
   border:1px solid #2874ad;
   border-radius:10px;
   background:#132e49;
   color:white;
   font-weight:bold;
   cursor:pointer;
+}
+
+.watch:active{
+  background:#1c4569;
 }
 
 .ad-label{
@@ -191,7 +200,7 @@ header{
   color:#9db4cb;
 }
 
-/* VIDEO PLAYER */
+/* POPUP VIDEO */
 #videoModal{
   display:none;
   position:fixed;
@@ -293,104 +302,92 @@ footer{
 
 <script>
 
-// ==========================================
-// LINK MONETAG
-// GANTI DENGAN DIRECT LINK MONETAG KAMU
-// ==========================================
+// ===========================================
+// LINK DIRECT MONETAG
+// GANTI DENGAN LINK MONETAG MILIKMU
+// ===========================================
 
 const MONETAG_LINK = "https://LINK-DIRECT-MONETAG-KAMU";
 
 
-// ==========================================
+// ===========================================
 // DATA VIDEO
-// GANTI THUMBNAIL DAN LINK VIDEO MP4
-// ==========================================
+// GANTI THUMBNAIL DAN VIDEO MP4 DI BAGIAN INI
+// ===========================================
 
 const videos = [
-
   {
     title:"Video Viral #1",
     category:"viral",
     thumbnail:"https://placehold.co/600x400/10345a/ffffff?text=VIDEO+1",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Trending #2",
     category:"trending",
     thumbnail:"https://placehold.co/600x400/12436e/ffffff?text=VIDEO+2",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Terbaru #3",
     category:"terbaru",
     thumbnail:"https://placehold.co/600x400/165080/ffffff?text=VIDEO+3",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Viral #4",
     category:"viral",
     thumbnail:"https://placehold.co/600x400/165b90/ffffff?text=VIDEO+4",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Trending #5",
     category:"trending",
     thumbnail:"https://placehold.co/600x400/146ba0/ffffff?text=VIDEO+5",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Terbaru #6",
     category:"terbaru",
     thumbnail:"https://placehold.co/600x400/167ab5/ffffff?text=VIDEO+6",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Viral #7",
     category:"viral",
     thumbnail:"https://placehold.co/600x400/158bc8/ffffff?text=VIDEO+7",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Trending #8",
     category:"trending",
     thumbnail:"https://placehold.co/600x400/1199df/ffffff?text=VIDEO+8",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Terbaru #9",
     category:"terbaru",
     thumbnail:"https://placehold.co/600x400/18a5e8/ffffff?text=VIDEO+9",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
-
   {
     title:"Video Viral #10",
     category:"viral",
     thumbnail:"https://placehold.co/600x400/1bb6f5/ffffff?text=VIDEO+10",
     video:"https://www.w3schools.com/html/mov_bbb.mp4"
   }
-
 ];
 
 
-// ==========================================
-// MEMBUAT KARTU VIDEO
-// ==========================================
+// ===========================================
+// GENERATE KARTU
+// ===========================================
 
 const grid = document.getElementById("videoGrid");
 
 videos.forEach(video => {
 
   const card = document.createElement("article");
-
   card.className = "card";
   card.dataset.category = video.category;
 
@@ -401,8 +398,7 @@ videos.forEach(video => {
            loading="lazy"
            alt="${video.title}">
 
-      <button class="play"
-        aria-label="Sponsor">
+      <button class="play" aria-label="Putar video">
         ▶
       </button>
 
@@ -416,52 +412,41 @@ videos.forEach(video => {
         ${video.category.toUpperCase()} • Video pilihan
       </div>
 
+      <!-- SPONSOR PERTAMA -->
       <a class="sponsor"
          href="${MONETAG_LINK}"
          target="_blank"
          rel="noopener noreferrer">
-         LINK SPONSOR
+         ✦ KUNJUNGI SPONSOR
       </a>
 
+      <div class="ad-label">Iklan / Sponsor</div>
+
+      <!-- TONTON VIDEO -->
       <button class="watch">
         ▶ TONTON VIDEO
       </button>
 
-      <div class="ad-label">
-        Sponsor
-      </div>
+      <!-- SPONSOR KEDUA -->
+      <a class="sponsor"
+         href="${MONETAG_LINK}"
+         target="_blank"
+         rel="noopener noreferrer">
+         ✦ SPONSOR LAINNYA
+      </a>
+
+      <div class="ad-label">Iklan / Sponsor</div>
 
     </div>
   `;
 
-  // ========================================
-  // PLAY MERAH = DIRECT LINK MONETAG
-  // ========================================
-
-  const playButton = card.querySelector(".play");
-
-  playButton.addEventListener("click", () => {
-
-    if(!MONETAG_LINK || MONETAG_LINK.includes("LINK-DIRECT")){
-      alert("Masukkan link Monetag terlebih dahulu.");
-      return;
-    }
-
-    window.open(
-      MONETAG_LINK,
-      "_blank",
-      "noopener,noreferrer"
-    );
-
+  // PLAY MERAH: MEMUTAR VIDEO ASLI
+  card.querySelector(".play").addEventListener("click", () => {
+    openVideo(video.video);
   });
 
-  // ========================================
-  // TONTON VIDEO = VIDEO ASLI
-  // ========================================
-
-  const watchButton = card.querySelector(".watch");
-
-  watchButton.addEventListener("click", () => {
+  // TONTON VIDEO: MEMUTAR VIDEO ASLI
+  card.querySelector(".watch").addEventListener("click", () => {
     openVideo(video.video);
   });
 
@@ -470,9 +455,9 @@ videos.forEach(video => {
 });
 
 
-// ==========================================
+// ===========================================
 // PLAYER VIDEO
-// ==========================================
+// ===========================================
 
 const videoModal = document.getElementById("videoModal");
 const videoPlayer = document.getElementById("videoPlayer");
@@ -482,12 +467,13 @@ function openVideo(url){
 
   videoPlayer.pause();
   videoPlayer.src = url;
-
   videoModal.style.display = "flex";
-
   videoPlayer.load();
 
-  videoPlayer.play().catch(() => {});
+  videoPlayer.play().catch(() => {
+    // Pengguna dapat menekan Play pada player
+    // jika autoplay ditolak oleh browser.
+  });
 
 }
 
@@ -496,7 +482,6 @@ function stopVideo(){
   videoPlayer.pause();
   videoPlayer.removeAttribute("src");
   videoPlayer.load();
-
   videoModal.style.display = "none";
 
 }
@@ -504,17 +489,15 @@ function stopVideo(){
 closeVideo.addEventListener("click",stopVideo);
 
 videoModal.addEventListener("click",event => {
-
   if(event.target === videoModal){
     stopVideo();
   }
-
 });
 
 
-// ==========================================
-// PENCARIAN
-// ==========================================
+// ===========================================
+// SEARCH VIDEO
+// ===========================================
 
 const search = document.getElementById("search");
 const categoryButtons = document.querySelectorAll(".categories button");
@@ -537,7 +520,6 @@ function filterVideos(){
       category === selectedCategory;
 
     const searchMatch = title.includes(keyword);
-
     const visible = categoryMatch && searchMatch;
 
     card.style.display = visible ? "" : "none";
@@ -553,9 +535,9 @@ function filterVideos(){
 search.addEventListener("input",filterVideos);
 
 
-// ==========================================
-// FILTER KATEGORI
-// ==========================================
+// ===========================================
+// CATEGORY FILTER
+// ===========================================
 
 categoryButtons.forEach(button => {
 
