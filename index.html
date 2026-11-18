@@ -5,15 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#071321">
-<meta name="description" content="Video populer dan trending">
-<title>Viral Zone - Trending</title>
+<meta name="description" content="Video viral dan trending terbaru">
+<title>Viral Zone - Trending Video</title>
 
 <style>
 :root{
   --bg:#071321;
   --card:#10243b;
   --blue:#087cff;
-  --blue2:#20b5ff;
   --red:#ff3048;
   --text:#fff;
   --muted:#9cb4ce;
@@ -74,9 +73,7 @@ header{
   cursor:pointer;
 }
 
-.categories button.active{
-  background:var(--blue);
-}
+.categories button.active{background:var(--blue)}
 
 .container{
   max-width:1000px;
@@ -117,14 +114,14 @@ header{
   display:block;
 }
 
-/* Tombol play untuk memutar video */
+/* PLAY MERAH - LINK SPONSOR */
 .play{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:76px;
-  height:76px;
+  width:78px;
+  height:78px;
   border-radius:50%;
   border:3px solid white;
   background:var(--red);
@@ -141,6 +138,19 @@ header{
   transform:translate(-50%,-50%) scale(.93);
 }
 
+.play-label{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.75);
+  color:white;
+  font-size:11px;
+  padding:5px 10px;
+  border-radius:20px;
+  pointer-events:none;
+}
+
 .info{padding:12px}
 
 .info h3{
@@ -154,7 +164,6 @@ header{
   font-size:12px;
 }
 
-/* LINK SPONSOR */
 .sponsor{
   display:block;
   margin-top:10px;
@@ -168,7 +177,6 @@ header{
   font-size:13px;
 }
 
-/* Tombol menonton video */
 .watch{
   display:block;
   width:100%;
@@ -182,9 +190,7 @@ header{
   cursor:pointer;
 }
 
-.watch:active{
-  background:#1c4569;
-}
+.watch:active{background:#1c4569}
 
 .ad-label{
   text-align:center;
@@ -312,7 +318,7 @@ const MONETAG_LINK = "https://LINK-DIRECT-MONETAG-KAMU";
 
 // ===========================================
 // DATA VIDEO
-// GANTI THUMBNAIL DAN VIDEO MP4 DI BAGIAN INI
+// GANTI THUMBNAIL DAN VIDEO MP4 DI SINI
 // ===========================================
 
 const videos = [
@@ -380,7 +386,7 @@ const videos = [
 
 
 // ===========================================
-// GENERATE KARTU
+// MEMBUAT KARTU VIDEO
 // ===========================================
 
 const grid = document.getElementById("videoGrid");
@@ -398,9 +404,11 @@ videos.forEach(video => {
            loading="lazy"
            alt="${video.title}">
 
-      <button class="play" aria-label="Putar video">
+      <button class="play" aria-label="Sponsor - membuka link iklan">
         ▶
       </button>
+
+      <div class="play-label">Sponsor</div>
 
     </div>
 
@@ -412,7 +420,6 @@ videos.forEach(video => {
         ${video.category.toUpperCase()} • Video pilihan
       </div>
 
-      <!-- SPONSOR PERTAMA -->
       <a class="sponsor"
          href="${MONETAG_LINK}"
          target="_blank"
@@ -422,12 +429,10 @@ videos.forEach(video => {
 
       <div class="ad-label">Iklan / Sponsor</div>
 
-      <!-- TONTON VIDEO -->
       <button class="watch">
         ▶ TONTON VIDEO
       </button>
 
-      <!-- SPONSOR KEDUA -->
       <a class="sponsor"
          href="${MONETAG_LINK}"
          target="_blank"
@@ -440,12 +445,31 @@ videos.forEach(video => {
     </div>
   `;
 
-  // PLAY MERAH: MEMUTAR VIDEO ASLI
+
+// ===========================================
+// PLAY MERAH: DIRECT LINK MONETAG
+// ===========================================
+
   card.querySelector(".play").addEventListener("click", () => {
-    openVideo(video.video);
+
+    if(!MONETAG_LINK || MONETAG_LINK.includes("LINK-DIRECT")){
+      alert("Masukkan link Monetag terlebih dahulu.");
+      return;
+    }
+
+    window.open(
+      MONETAG_LINK,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
   });
 
-  // TONTON VIDEO: MEMUTAR VIDEO ASLI
+
+// ===========================================
+// TONTON VIDEO: MEMUTAR VIDEO
+// ===========================================
+
   card.querySelector(".watch").addEventListener("click", () => {
     openVideo(video.video);
   });
@@ -470,10 +494,7 @@ function openVideo(url){
   videoModal.style.display = "flex";
   videoPlayer.load();
 
-  videoPlayer.play().catch(() => {
-    // Pengguna dapat menekan Play pada player
-    // jika autoplay ditolak oleh browser.
-  });
+  videoPlayer.play().catch(() => {});
 
 }
 
@@ -496,7 +517,7 @@ videoModal.addEventListener("click",event => {
 
 
 // ===========================================
-// SEARCH VIDEO
+// PENCARIAN VIDEO
 // ===========================================
 
 const search = document.getElementById("search");
@@ -536,7 +557,7 @@ search.addEventListener("input",filterVideos);
 
 
 // ===========================================
-// CATEGORY FILTER
+// FILTER KATEGORI
 // ===========================================
 
 categoryButtons.forEach(button => {
