@@ -4,439 +4,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#071321">
-<meta name="description" content="Video viral dan trending terbaru">
-<title>Viral lokal-terabox</title>
+<meta name="theme-color" content="#ffffff">
+<title>Video News</title>
 
 <style>
-:root{
-  --bg:#071321;
-  --card:#10243b;
-  --blue:#087cff;
-  --red:#ff3048;
-  --text:#fff;
-  --muted:#9cb4ce;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #111827;
 }
 
-header{
-  position:sticky;
-  top:0;
-  z-index:20;
-  padding:16px;
-  background:#0b1d32;
-  border-bottom:1px solid #1a3654;
+.header {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px;
+  border-bottom: 1px solid #eee;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:bold;
-  color:#35aaff;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 27px;
+  font-weight: bold;
 }
 
-.logo span{color:white}
-
-.search{margin-top:14px}
-
-.search input{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  border:1px solid #24476a;
-  background:#10243b;
-  color:white;
-  outline:none;
+.logo-icon {
+  width: 60px;
+  height: 60px;
+  background: #111827;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  font-size: 32px;
 }
 
-.categories{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  padding-top:14px;
+.logo span {
+  color: #3984e9;
 }
 
-.categories button{
-  border:0;
-  border-radius:20px;
-  padding:10px 16px;
-  color:white;
-  background:#19324d;
-  white-space:nowrap;
-  cursor:pointer;
+.upload {
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 18px 30px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.categories button.active{background:var(--blue)}
-
-.container{
-  max-width:1000px;
-  margin:auto;
-  padding:15px;
+.container {
+  padding: 25px 20px;
 }
 
-.heading{
-  font-size:20px;
-  margin:10px 0 16px;
+.advertise {
+  font-size: 29px;
+  color: #64748b;
+  margin-bottom: 65px;
 }
 
-.heading span{color:#35aaff}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;
+.video-card {
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px;
+  background: #111;
+  aspect-ratio: 9 / 16;
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
 }
 
-.card{
-  background:var(--card);
-  border:1px solid #1c3856;
-  border-radius:14px;
-  overflow:hidden;
+.video-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.thumb{
-  position:relative;
-  aspect-ratio:16/10;
-  background:#102b46;
+.video-click-area {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  height: 100%;
 }
 
-.thumb img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
+.video-click-area.hidden {
+  display: none;
 }
 
-/* PLAY MERAH - LINK SPONSOR */
-.play{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:78px;
-  height:78px;
-  border-radius:50%;
-  border:3px solid white;
-  background:var(--red);
-  color:white;
-  font-size:32px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:0 0 25px rgba(255,48,72,.5);
+.play-button {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.96);
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 25px rgba(0,0,0,.25);
+  transition: transform .2s;
+  pointer-events: none;
 }
 
-.play:active{
-  transform:translate(-50%,-50%) scale(.93);
+.video-click-area:active .play-button {
+  transform: scale(.92);
 }
 
-.play-label{
-  position:absolute;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,.75);
-  color:white;
-  font-size:11px;
-  padding:5px 10px;
-  border-radius:20px;
-  pointer-events:none;
+.play-button::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 34px solid transparent;
+  border-bottom: 34px solid transparent;
+  border-left: 50px solid #000;
+  margin-left: 12px;
 }
 
-.info{padding:12px}
+@media(max-width:600px) {
+  .header {
+    height: 90px;
+    padding: 12px 15px;
+  }
 
-.info h3{
-  margin:0 0 8px;
-  font-size:14px;
-  line-height:1.5;
-}
+  .logo {
+    font-size: 23px;
+  }
 
-.meta{
-  color:var(--muted);
-  font-size:12px;
-}
+  .logo-icon {
+    width: 55px;
+    height: 55px;
+  }
 
-.sponsor{
-  display:block;
-  margin-top:10px;
-  padding:12px;
-  border-radius:10px;
-  text-align:center;
-  background:linear-gradient(135deg,#087cff,#16aaff);
-  color:white;
-  text-decoration:none;
-  font-weight:bold;
-  font-size:13px;
-}
+  .upload {
+    padding: 15px 22px;
+    font-size: 17px;
+  }
 
-.watch{
-  display:block;
-  width:100%;
-  margin-top:10px;
-  padding:13px;
-  border:1px solid #2874ad;
-  border-radius:10px;
-  background:#132e49;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
+  .container {
+    padding: 25px 15px;
+  }
 
-.watch:active{background:#1c4569}
+  .advertise {
+    font-size: 27px;
+    margin-bottom: 60px;
+  }
 
-.ad-label{
-  text-align:center;
-  color:#829ab3;
-  font-size:10px;
-  margin-top:7px;
-}
+  .video-card {
+    border-radius: 35px;
+  }
 
-.empty{
-  display:none;
-  text-align:center;
-  padding:30px;
-  color:#9db4cb;
-}
-
-/* POPUP VIDEO */
-#videoModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:rgba(0,0,0,.96);
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-}
-
-.modalBox{
-  width:100%;
-  max-width:850px;
-}
-
-.closeVideo{
-  display:block;
-  margin:0 0 12px auto;
-  background:#ff3048;
-  color:white;
-  border:0;
-  border-radius:10px;
-  padding:11px 18px;
-  font-size:16px;
-  cursor:pointer;
-}
-
-#videoPlayer{
-  width:100%;
-  max-height:80vh;
-  display:block;
-  background:#000;
-  border-radius:12px;
-}
-
-footer{
-  text-align:center;
-  padding:25px 10px;
-  color:#8da7c0;
-  font-size:12px;
-}
-
-@media(max-width:380px){
-  .grid{grid-template-columns:1fr}
+  .play-button {
+    width: 150px;
+    height: 150px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">▶ASUPAN <span>VdyLokal Terkini</span></div>
-
-  <div class="search">
-    <input id="search" type="search" placeholder="Cari video...">
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">V</div>
+    <div>vldey<span>.co</span></div>
   </div>
 
-  <div class="categories">
-    <button class="active" data-category="all">Semua</button>
-    <button data-category="viral">Viral</button>
-    <button data-category="trending">Trending</button>
-    <button data-category="terbaru">Terbaru</button>
-  </div>
+  <button class="upload" type="button">
+    Upload
+  </button>
 </header>
 
 <main class="container">
 
-  <h2 class="heading">🔥 ASUPAN <span> VIDEO </span></h2>
+  <div class="advertise">Advertise</div>
 
-  <div class="grid" id="videoGrid"></div>
+  <div class="video-card">
 
-  <div class="empty" id="empty">
-    Video tidak ditemukan.
+    <video
+      id="myVideo"
+      poster="https://cdn.phototourl.com/anon/2026-11-19-d282a396-b829-485d-ac9e-7f00dfc6f8eb.jpg"
+      playsinline
+      preload="metadata"
+    >
+      <source
+        src="https://videotourl.com/videos/1793864757671-74b28492-ca33-49f4-8cd5-f69748dad30b.mp4"
+        type="video/mp4">
+    </video>
+
+    <button
+      class="video-click-area"
+      id="clickArea"
+      type="button"
+      aria-label="Putar video">
+
+      <span class="play-button"></span>
+
+    </button>
+
   </div>
 
 </main>
 
-<!-- POPUP VIDEO -->
-<div id="videoModal">
-  <div class="modalBox">
-
-    <button class="closeVideo" id="closeVideo">
-      ✕ TUTUP VIDEO
-    </button>
-
-    <video id="videoPlayer"
-      controls
-      playsinline
-      preload="metadata">
-    </video>
-
-  </div>
-</div>
-
-<footer>
-  © 2026 Viral Zone • Video Trending
-</footer>
-
 <script>
 
-// ===========================================
-// LINK DIRECT MONETAG
-// GANTI DENGAN LINK MONETAG MILIKMU
-// ===========================================
+/* =================================
+   MONETAG DIRECT LINK
+================================= */
 
-const MONETAG_LINK = "https://uplcm.com/4/11810812";
+const MONETAG_LINK =
+"https://uplcm.com/4/11810812";
 
+/* =================================
+   VIDEO PLAYER
+================================= */
 
-// ===========================================
-// DATA VIDEO
-// GANTI THUMBNAIL DAN VIDEO MP4 DI SINI
-// ===========================================
+const video = document.getElementById("myVideo");
+const clickArea = document.getElementById("clickArea");
 
-const videos = [
-  {
-    title:"Video Viral ",
-    category:"viral",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-18-6d67dd0b-e318-4512-ad35-ca4a1d9f7a1d.jpg",
-    video:"https://videotourl.com/videos/1793864757671-74b28492-ca33-49f4-8cd5-f69748dad30b.mp4"
-  },
-  {
-    title:"Video Trending ",
-    category:"trending",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-18-a427cbef-712b-433e-a1a3-f14fa9548164.jpg",
-    video:"https://videotourl.com/videos/1793865195798-266a41e3-2dfd-4142-87aa-575da2ef6d1d.mp4"
-  },
-  {
-    title:"Video Terbaru ",
-    category:"terbaru",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-18-4bf51e7a-8319-454a-9830-20e915f8d7b8.jpg",
-    video:"https://videotourl.com/videos/1793117815847-e50d156f-73c5-4b08-9ef0-6d6355d7a00d.mp4"
-  },
-  {
-    title:"Video Terbaru ",
-    category:"terbaru",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-18-9bebdf8e-61c3-481a-a1d1-7771f747612e.jpg",
-    video:"https://videotourl.com/videos/1794844718436-ece839cc-56c2-41d7-8ca3-f5e51cca58ef.mp4"
-  },
-  {
-    title:"Video Viral ",
-    category:"viral",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-16-127af223-4cb3-47f7-a99d-2b5ab2cd8be0.jpg",
-    video:"https://videotourl.com/videos/1794844814468-1f08ec40-daea-44be-a129-7ed791021125.mp4"
-  },
-  {
-    title:"Video Trending ",
-    category:"trending",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-16-4e07aaf5-46e5-473e-977b-a49a149cbb26.jpg",
-    video:"https://videotourl.com/videos/1794844886007-d581965f-ce17-4406-afe3-153ac8cc3fd2.mp4"
-  },
-  {
-    title:"Video Terbaru ",
-    category:"terbaru",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-16-f24c916d-8ccf-48fb-9441-6d1a85a2649a.jpg",
-    video:"https://videotourl.com/videos/1794844923030-0f73019d-d98b-4ad4-8c05-0af62d337dae.mp4"
-  },
-  {
-    title:"Video Viral ",
-    category:"viral",
-    thumbnail:"https://cdn.phototourl.com/anon/2026-11-16-4fe3c933-7127-45b8-91b0-5d6d1ba05df1.jpg",
-    video:"https://videotourl.com/videos/1794844972856-1ecaa150-61a5-4ae0-9dd6-8081f817962e.mp4"
-  }
-];
+let sudahKlik = false;
 
+clickArea.addEventListener("click", function() {
 
-// ===========================================
-// MEMBUAT KARTU VIDEO
-// ===========================================
+  // BUKA IKLAN MONETAG SATU KALI
+  // PADA KLIK PERTAMA
 
-const grid = document.getElementById("videoGrid");
-
-videos.forEach(video => {
-
-  const card = document.createElement("article");
-  card.className = "card";
-  card.dataset.category = video.category;
-
-  card.innerHTML = `
-    <div class="thumb">
-
-      <img src="${video.thumbnail}"
-           loading="lazy"
-           alt="${video.title}">
-
-      <button class="play" aria-label="Now - membuka link iklan">
-        ▶
-      </button>
-
-      <div class="play-label"></div>
-
-    </div>
-
-    <div class="info">
-
-      <h3>${video.title}</h3>
-
-      <div class="meta">
-        ${video.category.toUpperCase()} •
-      </div>
-
-      <a class="sponsor"
-         href="${MONETAG_LINK}"
-         target="_blank"
-         rel="noopener noreferrer">
-         ▶ TONTON VIDEO
-      </a>
-
-      <div class="ad-label"></div>
-
-      <button class="watch">
-        ▶ NEXT
-      </button>
-      
-      <div class="ad-label"></div>
-
-    </div>
-  `;
-
-
-// ===========================================
-// PLAY MERAH: DIRECT LINK MONETAG
-// ===========================================
-
-  card.querySelector(".play").addEventListener("click", () => {
-
-    if(!MONETAG_LINK || MONETAG_LINK.includes("LINK-DIRECT")){
-      alert("Masukkan link Monetag terlebih dahulu.");
-      return;
-    }
+  if (!sudahKlik) {
 
     window.open(
       MONETAG_LINK,
@@ -444,123 +254,55 @@ videos.forEach(video => {
       "noopener,noreferrer"
     );
 
-  });
-
-
-// ===========================================
-// TONTON VIDEO: MEMUTAR VIDEO
-// ===========================================
-
-  card.querySelector(".watch").addEventListener("click", () => {
-    openVideo(video.video);
-  });
-
-  grid.appendChild(card);
-
-});
-
-
-// ===========================================
-// PLAYER VIDEO
-// ===========================================
-
-const videoModal = document.getElementById("videoModal");
-const videoPlayer = document.getElementById("videoPlayer");
-const closeVideo = document.getElementById("closeVideo");
-
-function openVideo(url){
-
-  videoPlayer.pause();
-  videoPlayer.src = url;
-  videoModal.style.display = "flex";
-  videoPlayer.load();
-
-  videoPlayer.play().catch(() => {});
-
-}
-
-function stopVideo(){
-
-  videoPlayer.pause();
-  videoPlayer.removeAttribute("src");
-  videoPlayer.load();
-  videoModal.style.display = "none";
-
-}
-
-closeVideo.addEventListener("click",stopVideo);
-
-videoModal.addEventListener("click",event => {
-  if(event.target === videoModal){
-    stopVideo();
+    sudahKlik = true;
   }
+
+  // PUTAR VIDEO
+  video.play().then(function() {
+
+    clickArea.classList.add("hidden");
+    video.controls = true;
+
+  }).catch(function() {
+
+    video.controls = false;
+    clickArea.classList.remove("hidden");
+
+    alert("Video gagal diputar. Periksa link MP4.");
+
+  });
+
 });
 
+/* SAAT VIDEO DIPUTAR */
 
-// ===========================================
-// PENCARIAN VIDEO
-// ===========================================
+video.addEventListener("play", function() {
+  clickArea.classList.add("hidden");
+  video.controls = true;
+});
 
-const search = document.getElementById("search");
-const categoryButtons = document.querySelectorAll(".categories button");
-const empty = document.getElementById("empty");
+/* SAAT VIDEO DIJEDA */
 
-let selectedCategory = "all";
+video.addEventListener("pause", function() {
 
-function filterVideos(){
+  if (!video.ended) {
+    video.controls = false;
+    clickArea.classList.remove("hidden");
+  }
 
-  const keyword = search.value.toLowerCase();
-  let count = 0;
+});
 
-  document.querySelectorAll(".card").forEach(card => {
+/* SAAT VIDEO SELESAI */
 
-    const title = card.querySelector("h3").textContent.toLowerCase();
-    const category = card.dataset.category;
+video.addEventListener("ended", function() {
 
-    const categoryMatch =
-      selectedCategory === "all" ||
-      category === selectedCategory;
-
-    const searchMatch = title.includes(keyword);
-    const visible = categoryMatch && searchMatch;
-
-    card.style.display = visible ? "" : "none";
-
-    if(visible) count++;
-
-  });
-
-  empty.style.display = count ? "none" : "block";
-
-}
-
-search.addEventListener("input",filterVideos);
-
-
-// ===========================================
-// FILTER KATEGORI
-// ===========================================
-
-categoryButtons.forEach(button => {
-
-  button.addEventListener("click",() => {
-
-    categoryButtons.forEach(btn => {
-      btn.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    selectedCategory = button.dataset.category;
-
-    filterVideos();
-
-  });
+  video.controls = false;
+  clickArea.classList.remove("hidden");
 
 });
 
 </script>
-   <!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+  <!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
 <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,5064874,4,9,110,60,00010000']);
